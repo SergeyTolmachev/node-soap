@@ -823,7 +823,11 @@ export class TypesElement extends Element {
   public addChild(child) {
     assert(child instanceof SchemaElement);
 
-    const targetNamespace = child.$targetNamespace;
+    let targetNamespace = child.$targetNamespace;
+
+    if (!targetNamespace && child.includes && child.includes.length === 1) {
+      targetNamespace = child.includes[0].namespace;
+    }
 
     if (!this.schemas.hasOwnProperty(targetNamespace)) {
       this.schemas[targetNamespace] = child;
